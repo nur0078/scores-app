@@ -3,7 +3,7 @@ import FixturesList from "./FixturesList"
 
 const Home = () => {
   return (
-    <div id="home" className="px-4">
+    <div id="home" className="px-1 font-poppins">
         <div id="billboard" className="mb-6">
             <Billboard />
         </div>
