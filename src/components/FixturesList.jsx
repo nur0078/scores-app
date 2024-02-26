@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { getTeamNickname } from '../constants/teamNickname'
 
 
 const FixturesList = () => {
@@ -28,6 +29,7 @@ const FixturesList = () => {
 
     fetchFixtures();
   }, []);
+
   // Format for date
   const formatDate = (dateString) => {
     const dateTime = new Date(dateString);
@@ -50,43 +52,42 @@ const FixturesList = () => {
         {fixturesData.map((game) => (
           <li
             key={game.fixture.id}
-            className="justify-around  my-3 flex items-center shadow-md rounded-lg w-full"
+            className="justify-between my-3  grid grid-cols-3 items-center shadow-md rounded-lg min-w-fit "
           >
             {/* Home Team */}
-            <div className="flex items-center gap-2 min-w-[0%]">
+            <div className="flex items-center ">
               {/* Home team logo */}
               <img
                 id="homeLogo"
-                className="h-12 w-12 flex rounded-full bg-gray-50"
+                className="h-10 w-10 mx-2 rounded-full bg-gray-50 "
                 src={game.teams.home.logo}
                 alt="home team logo"
               />
               {/* Home team name */}
-              <h2 className="pl-4">{game.teams.home.name}</h2>
+              <h2 className="">{getTeamNickname(game.teams.home.name)}</h2>
             </div>
   
             {/* Game INFO  */}
-            
-            <div className="min-w-[20%]">
+            <div className="py-4 mx-6">
               {/* Date */}
-              <div className="font-semibold leading-6 text-gray-900">{formatDate(game.fixture.date)}</div>
+              <div className=" text-lg leading-6 text-gray-600">{formatDate(game.fixture.date)}</div>
               {/* Kick-off Time */}
               <p className="text-sm font-semibold leading-6 text-gray-900 py-2">
                 {formatTime(game.fixture.date)}
               </p>
-              <small className="text-xs leading-5 text-gray-500">{game.fixture.venue.name}</small>
+              {/* Stadium */}
+              <small className="text-sm leading-5 text-gray-500">{game.fixture.venue.name}</small>
             </div>
   
             {/* Away TEAM */}
-            <div className="flex items-center gap-2 min-w-[20%]">
+            <div className="flex items-center justify-end mx-2">
               {/* Away team name */}
-              <h2>{game.teams.away.name}</h2>
+              <h2>{getTeamNickname(game.teams.away.name)}</h2>
               {/* Away team logo */}
               <img
                 id="awayLogo"
-                className="h-12 w-12 flex rounded-full bg-gray-50"
+                className="h-10 w-10 flex rounded-full bg-gray-50 mx-1"
                 src={game.teams.away.logo}
-                alt="away team logo"
               />
             </div>
           </li>
