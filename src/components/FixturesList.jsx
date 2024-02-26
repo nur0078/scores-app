@@ -1,158 +1,62 @@
-
-import manUtd from "../../src/assets/images/manUtd.png"
-// const people = [
-//   {
-//     name: "Leslie Alexander",
-//     email: "leslie.alexander@example.com",
-//     role: "Co-Founder / CEO",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     lastSeen: "3h ago",
-//     lastSeenDateTime: "2023-01-23T13:23Z",
-//   },
-//   {
-//     name: "Michael Foster",
-//     email: "michael.foster@example.com",
-//     role: "Co-Founder / CTO",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     lastSeen: "3h ago",
-//     lastSeenDateTime: "2023-01-23T13:23Z",
-//   },
-//   {
-//     name: "Dries Vincent",
-//     email: "dries.vincent@example.com",
-//     role: "Business Relations",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     lastSeen: null,
-//   },
-//   {
-//     name: "Lindsay Walton",
-//     email: "lindsay.walton@example.com",
-//     role: "Front-end Developer",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     lastSeen: "3h ago",
-//     lastSeenDateTime: "2023-01-23T13:23Z",
-//   },
-//   {
-//     name: "Courtney Henry",
-//     email: "courtney.henry@example.com",
-//     role: "Designer",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     lastSeen: "3h ago",
-//     lastSeenDateTime: "2023-01-23T13:23Z",
-//   },
-//   {
-//     name: "Tom Cook",
-//     email: "tom.cook@example.com",
-//     role: "Director of Product",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     lastSeen: null,
-//   },
-// ];
-
-const fixtures = [
-  {
-    home: {
-      team: "Man United",
-      logoURL: manUtd,
-    },
-    away: {
-      team: "Man United",
-      logoURL: "../assets/images/manUtd.png",
-    },
-    kickOff: "17:00",
-    stadium: "Old Trafford",
-  },
-  {
-    home: {
-      team: "Man United",
-      logoURL: manUtd,
-    },
-    away: {
-      team: "Man United",
-      logoURL: "../assets/images/manUtd.png",
-    },
-    kickOff: "17:00",
-    stadium: "Old Trafford",
-  },
-];
+import { fixtures } from "../constants";
 
 const FixturesList = () => {
   return (
-    <div>
-      <div>
-        <ul role="fixtures-list"className="divide-y divide-gray-100">
-        {fixtures.map((game) => (
-          <li key={game.home} className="flex justify-between gap-x-6 py-5">
-            <div className="flex min-w-0 gap-x-4">
-              <img
-                id="homeLogo"
-                className="h-12 w-12 flex-none rounded-full bg-gray-50 "
-                src={game.home.logoURL}
-                alt="home team logo"
-                
-              />
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">
-                  {game.kickOff}
-                </p>
-                <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  {game.stadium}
-                </p>
-              </div>
-            </div>
-            <div>
-
-            </div>
-
-          </li>
-        ))}
-        </ul>
-      </div>
-      {/* <ul role="list" className="divide-y divide-gray-100">
-        {people.map((person) => (
-          <li key={person.email} className="flex justify-between gap-x-6 py-5">
-            <div className="flex min-w-0 gap-x-4">
-              <img
-                className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                src={person.imageUrl}
-                alt=""
-              />
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">
-                  {person.name}
-                </p>
-                <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  {person.email}
-                </p>
-              </div>
-            </div>
-            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{person.role}</p>
-              {person.lastSeen ? (
-                <p className="mt-1 text-xs leading-5 text-gray-500">
-                  Last seen{" "}
-                  <time dateTime={person.lastSeenDateTime}>
-                    {person.lastSeen}
-                  </time>
-                </p>
-              ) : (
-                <div className="mt-1 flex items-center gap-x-1.5">
-                  <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  </div>
-                  <p className="text-xs leading-5 text-gray-500">Online</p>
+    <div className="">
+      <ul role="list" className="divide-y divide-gray-100  ">
+        <div className="">
+          {fixtures.map((game) => (
+            <li
+              key={game.home}
+              className="p-4 justify-between  border-2 border-slate-400 rounded-lg my-3 "
+            >
+              {/* Single Stacks Div */}
+              <div id="single-stack" className="flex">
+                {/* Home Team */}
+                <div className="items-center flex gap-2">
+                  {/* Home team logo */}
+                  <img
+                    id="homeLogo"
+                    className="h-8 w-8 flex rounded-full bg-gray-50 "
+                    src={game.homeLogo}
+                    alt="home team logo"
+                  />
+                  {/* Home team name */}
+                  <h2 className=""> {game.home}</h2>
                 </div>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul> */}
+                
+                {/* Game INFO  */}
+                <div className="min-w-0 flex-auto ">
+                  {/* Kick-off Time */}
+                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                    {game.kickOff}
+                  </p>
+                  {/* Stadium */}
+                  <p className=" text-xs leading-5 text-gray-500">
+                    {game.stadium}
+                  </p>
+                </div>
+
+                {/* Away TEAM */}
+                {/* Away team logo */}
+                <div className="items-center flex gap-x-2">
+                  {/* Home team name */}
+                  <h2 className=""> {game.away}</h2>
+
+                  {/* Home team logo */}
+                  <img
+                    id="homeLogo"
+                    className="h-8 w-8 flex-none rounded-full bg-gray-50 "
+                    src={game.awayLogo}
+                    alt="home team logo"
+                  />
+                </div>
+              </div>
+              <div></div>
+            </li>
+          ))}
+        </div>
+      </ul>
     </div>
   );
 };
