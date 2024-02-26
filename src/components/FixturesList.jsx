@@ -14,10 +14,10 @@ const FixturesList = () => {
             league: '39',
             team: '33',
             next: '50',
-            timezone: 'Australia/Sydney' // or 'AEDT'
+            timezone: 'Australia/Sydney'
           },
           headers: {
-            'X-RapidAPI-Key': 'aca8ddfae3mshc7b114110d6fd47p199982jsneb68fbb1d89b',
+            'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
             'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
           }
         });
@@ -26,7 +26,6 @@ const FixturesList = () => {
         console.error(error);
       }
     };
-
     fetchFixtures();
   }, []);
 
