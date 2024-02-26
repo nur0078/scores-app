@@ -9,16 +9,10 @@ function App() {
     {/* logos as hyperlinks */}
     <span> Logos for Latest | Football | Cricket | Others</span>
 
-    <div id="billboard">
+    <div id="home-billboard">
       <Home />
     </div>
-    <ul className="text-3xl text-black">
-      <li>Football</li>
-      <li>Cricket</li>
-      <li>NRL</li>
-      <li></li>
-      <li></li>
-    </ul>
+
     </div>
   )
 }
