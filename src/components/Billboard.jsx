@@ -1,35 +1,36 @@
 
 const Billboard = () => {
   return (
-    <div className="m-2 p-2 border-4 border-red-600 rounded-3xl">
+    <div className="m-2  rounded-3xl bg-pale-blue shadow-2xl ">
         {/*============ Top Bins ============ */}
-        <div className="flex-col text-left">
+        <div className="flex-col text-left py-4">
         {/* =========== League and Week Info =========== */}
             <div id="leagueName" className="flex justify-around">
                 <div>
                     <span>
                         Logo  | League Name 
                     </span>
+                    {/* ========== GameWeek ========== */}
                     <small className="m-auto flex">Week 11</small>
                 </div>
-                
                 <span>
                     Live Status 
                 </span>
             </div>
-            {/* ========== GameWeek ========== */}
-            
+
         </div>
 
         {/* SCOREBOARD */}
-        <div>
-            Logo Score (vs) Score Logo & name
+        <div className="py-3">
+        <div className="text-center">
+            Logo|name - Score (vs) Score - Logo|name
         </div>
         <div>
             Game Time
         </div>
-        <div>
+        <div className="text-center py-3">
             Team Name Stadium Team Name
+        </div>
         </div>
 
     </div>
