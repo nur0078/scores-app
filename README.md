@@ -2,6 +2,7 @@
 # Scores App
 
 ## Description
+
 A webapp where I can find my teams score easily with no noise.
 
 ## Installation
@@ -9,28 +10,22 @@ A webapp where I can find my teams score easily with no noise.
 To install the dependencies and start the development server, follow these steps:
 
 1. Clone the repository:
-   ```
-   git clone <REPOSITORY_URL>
-   
-   ```
+   `git clone https://github.com/nur0078/scores-app.githttps://github.com/nur0078/scores-app.git`
 
-Navigate to the project directory:
-cd <PROJECT_DIRECTORY>
+1. Navigate to the project directory:
+`cd scores-app`
 
-Install dependencies:
-
+1. Install dependencies:
 `npm install`
 
-Start the development server:
-
-`npm runn dev`
-
-
-
+1. Start the development server:
+`npm run dev`
 
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Have Fun.
 
 Currently, two official plugins are available:
 
