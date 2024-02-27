@@ -5,10 +5,12 @@
 @tailwind utilities;
 
 body {
-  padding: 10px;
   background-color: white;
+  width: 100vw;
 }
-
+#root {
+  padding: 20px;
+}
 table {
   width: content;
 }
