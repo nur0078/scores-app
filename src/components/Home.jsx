@@ -5,8 +5,8 @@ import FixturesList from "./FixturesList"
 const Home = () => {
   return (
     <div>
-      <div id="home" className=" p-6  font-poppins md:h-lvh md:grid md:grid-cols-2 gap-10 justify-center items-center ">
-        <div id="billboard" className="w-[400px] pb-16 pr-16 md:pr-20 lg:w-[600px]  mx-auto">
+      <div id="home" className=" py-8 font-poppins md:h-lvh md:grid md:grid-cols-2 gap-10 justify-center items-center ">
+        <div id="billboard" className="w-[400px] lg:w-[600px]  flex justify-center items-center">
             <Billboard />
         </div>
         <div id="fixtures" className="flex justify-center items-center  pb-14">
