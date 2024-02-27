@@ -12,10 +12,15 @@ const isRelegated = (rank) => {
   let setStyle = "justify-between pb-4 grid grid-cols-9 md:divide-y md:divide-gray-800  font-inter text-md "
 
   if (rank > 17) {
-    setStyle = setStyle + "bg-red-400"
+    setStyle = setStyle + "bg-red-300"
     
+  } else if (rank < 5 ) {
+    setStyle = setStyle + "bg-green-200"
+  } else if (rank < 7) {
+    setStyle = setStyle + 'bg-orange-100'
+
   } else {
-    setStyle = setStyle + "bg-slate-300"
+    setStyle = setStyle + "bg-slate-100"
   }
   return setStyle
 }
