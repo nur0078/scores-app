@@ -1,7 +1,7 @@
 
 const Billboard = () => {
   return (
-    <div className="m-2  rounded-3xl bg-pale-blue shadow-2xl  h-[400px] lg:h-[500px]">
+    <div className="rounded-3xl bg-pale-blue shadow-2xl  h-[400px] lg:h-[500px]">
         {/*============ Top Bins ============ */}
         <div className="flex-col text-left py-4">
         {/* =========== League and Week Info =========== */}
