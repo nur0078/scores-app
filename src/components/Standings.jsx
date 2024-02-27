@@ -67,7 +67,7 @@ const Standings = () => {
   }, []);
 
   return (
-    <div id="standings-child" className="container w-auto text-sm pt-10">
+    <div id="standings-child" className="flex text-sm pt-10">
       <table className="">
         <thead>
           <tr className="justify-between grid grid-cols-9 w-full py-5 shadow-md text-xl text-white font-inter bg-slate-400">
