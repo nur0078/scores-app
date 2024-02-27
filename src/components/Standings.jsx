@@ -41,6 +41,20 @@ const isLogoNeeded = (rank) => {
 
 const Standings = () => {
   const [tableData, setTableData] = useState([]);
+  const [userWidth, setUserWidth] = useState(0)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setUserWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
 
   useEffect(() => {
     const fetchTable = async () => {
@@ -88,7 +102,7 @@ const Standings = () => {
             className={isRelegated(club.rank)}>
             <td>{club.rank}</td>
             <td className=" flex text-left font-bold ">
-              {getTeamNickname(club.team.name)}  
+              {getTeamNickname(club.team.name, userWidth)}  
               {isLogoNeeded(club.rank)}
               </td>
             <td className="text-right md:text-center">{club.all.played}</td>
