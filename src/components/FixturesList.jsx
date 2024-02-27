@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { getTeamNickname } from '../constants/teamNickname'
+import { getTeamNickname } from '../constants'
 
 
 const FixturesList = () => {
@@ -13,7 +13,7 @@ const FixturesList = () => {
           params: {
             league: '39',
             team: '33',
-            next: '50',
+            next: '5',
             timezone: 'Australia/Sydney'
           },
           headers: {
@@ -46,7 +46,7 @@ const FixturesList = () => {
   };
 
   return (
-    <div className="">
+    <div className="flex">
       <ul role="list" className="divide-y divide-gray-100 ">
         {fixturesData.map((game) => (
           <li
