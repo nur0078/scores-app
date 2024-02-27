@@ -1,35 +1,58 @@
-export function getTeamNickname(teamName) {
+export function getTeamNickname(teamName, viewPort) {
+    const isTablet = viewPort < 1024; // Adjust the tablet threshold according to your requirements
+    const isMobile = viewPort < 768; // Adjust the mobile threshold according to your requirements
 
     switch (teamName.toLowerCase()) {
-
+        case "arsenal":
+            return isMobile ? "ARS" : (isTablet ? "Arsenal" : "Arsenal");
         case "aston villa":
-            return "A. Villa";
+            return isMobile ? "AVL" : (isTablet ? "A. Villa" : "Aston Villa");
+        case "bournemouth":
+            return isMobile ? "BOU" : (isTablet ? "B'mouth" : "Bournemouth");
+        case "brighton":
+            return isMobile ? "BRI" : (isTablet ? "Brighton" : "Brighton");
+        case "brentford":
+            return isMobile ? "BRE" : (isTablet ? "Brentford" : "Brentford");
+        case "burnley":
+            return isMobile ? "BUR" : (isTablet ? "Burnley" : "Burnley");
+        case "chelsea":
+            return isMobile ? "CHE" : (isTablet ? "Chelsea" : "Chelsea");
         case "crystal palace":
-            return "C. Palace";
-
+            return isMobile ? "CRY" : (isTablet ? "C. Palace" : "Crystal Palace");
+        case "everton":
+            return isMobile ? "EVE" : (isTablet ? "Everton" : "Everton");
+        case "fulham":
+            return isMobile ? "FUL" : (isTablet ? "Fulham" : "Fulham");
         case "leeds united":
-            return "Leeds";
+            return isMobile ? "LEE" : (isTablet ? "Leeds" : "Leeds United");
+        case "liverpool":
+            return isMobile ? "LIV" : (isTablet ? "Liverpool" : "Liverpool");
+        case "luton":
+            return isMobile ? "LUT" : (isTablet ? "Luton" : "Luton");
         case "manchester city":
         case "man city":
-            return "Man City";
+            return isMobile ? "MCI" : (isTablet ? "Man City" : "Manchester City");
         case "manchester united":
-            return "Man Utd";
-
+            return isMobile ? "MUN" : (isTablet ? "Man Utd" : "Manchester United");
+        case "newcastle":
+            return isMobile ? "NEW" : (isTablet ? "Newcastle" : "Newcastle United");
+        case "nottingham forest":
+            return isMobile ? "NOT" : (isTablet ? "Nottingham" : "Nottingham Forest");
+        case "sheffield utd":
+            return isMobile ? "SHU" : (isTablet ? "Sheffield" : "Sheffield United");
         case "tottenham":
-            return "Spurs";
-        case "west ham united":
-            return "West Ham";
+            return isMobile ? "TOT" : (isTablet ? "Spurs" : "Tottenham");
+        case "west ham":
+            return isMobile ? "WHU" : (isTablet ? "West Ham" : "West Ham United");
         case "wolverhampton wanderers":
         case "wolves":
-            return "Wolves";
-        case "sheffield utd":
-            return "Sheffield";
-        case "nottingham forest":
-            return "Nottingham"
+            return isMobile ? "WOL" : (isTablet ? "Wolves" : "Wolverhampton Wanderers");
         default:
             return teamName;
     }
 }
+
+
 
 export const logo = {
     ucl: "https://media.api-sports.io/football/leagues/2.png",
