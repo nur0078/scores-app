@@ -6,13 +6,13 @@ const Home = () => {
   return (
     <div className="py-8 font-poppins">
       {/* Main grid layout for desktop and mobile */}
-      <div id="home" className="grid grid-cols-1 md:grid-cols-2 gap-10 justify-center items-center">
+      <div id="home" className="md:grid md:grid-cols-2 gap-10 justify-center items-center">
         {/* Billboard section */}
         <div id="billboard" className="flex justify-center items-center">
           <Billboard />
         </div>
         {/* Fixtures section */}
-        <div id="fixtures" className="flex justify-center items-center">
+        <div id="fixtures" className="m-2 md:pr-4">
           <FixturesList />
         </div>
       </div>
