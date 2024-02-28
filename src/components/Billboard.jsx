@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchLastFixtures, liveFixtures } from "../constants";
+import { fetchLastFixtures, liveFixtures, getTeamNickname } from "../constants";
 
 const Billboard = () => {
   const [boardScore, setBoardScore] = useState([]);
@@ -44,8 +44,8 @@ const Billboard = () => {
                 </div>
               </span>
               <span
-                id="LiveText"
-                className="border-2 border-red-400 whitespace-no-wrap mr-4"
+                id="live-status"
+                className="whitespace-no-wrap mr-4"
               >
                 {isLive ? "Live" : "GW " + boardScore[0].league.round.slice(-2)}
               </span>
@@ -54,6 +54,7 @@ const Billboard = () => {
 
           {/* SCOREBOARD */}
           <div className="flex items-center justify-between pt-6">
+
             {/* HOME TEAM */}
             <div className="flex justify-center">
               <img
@@ -101,14 +102,19 @@ const Billboard = () => {
 
           {/* Lower Text, Team Name Stadium */}
           <div className="text-center py-3 flex gap-5">
-            <div className="flex-1 font-bold">
-              {boardScore[0].teams.home.name}
+            {/* Home team name */}
+            <div className="flex-1 text-2xl font-semibold">
+              {getTeamNickname(boardScore[0].teams.home.name, 900)}
             </div>
+            
+            {/* Stadium */}
             <div className="text-sm leading-5 text-gray-600">
               {boardScore[0].fixture.venue.name}
             </div>
-            <div className="flex-1 font-bold">
-              {boardScore[0].teams.away.name}
+
+            {/* Away team name */}
+            <div className="flex-1 text-2xl font-semibold">
+            {getTeamNickname(boardScore[0].teams.away.name, 900)}
             </div>
           </div>
         </div>
