@@ -11,6 +11,8 @@ body {
 #root {
   padding: 20px;
 }
+
 table {
-  width: content;
+  width: 100%; /* Ensure the table takes up 100% of its container's width */
+  table-layout: fixed; /* Fix the layout to prevent the table from changing its layout based on content */
 }
