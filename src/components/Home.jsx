@@ -17,7 +17,7 @@ const Home = () => {
         </div>
       </div>
       {/* Standings section */}
-      <div className="flex justify-center items-center mt-10">
+      <div className="flex justify-center items-center mt-10 p-12">
         <Standings />
       </div>
     </div>
