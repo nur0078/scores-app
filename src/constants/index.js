@@ -1,3 +1,65 @@
+import axios from 'axios';
+
+
+export async function liveFixtures() {
+    try {
+      const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
+        params: {
+          live:'all',
+          team: '33',
+        },
+        headers: {
+          'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
+          'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+        }
+      });
+      return response.data.response;
+    } catch (error) {
+      console.error(error);
+      return null; // or handle error as needed
+    }
+  }
+
+export async function fetchNextFixtures(numOfFixtures) {
+    try {
+      const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
+        params: {
+            team: '33',
+            next: JSON.stringify(numOfFixtures),
+            timezone: 'Australia/Sydney'
+        },
+        headers: {
+          'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
+          'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+        }
+      });
+      return response.data.response;
+    } catch (error) {
+      console.error(error);
+      return null; // or handle error as needed
+    }
+  }
+
+  export async function fetchLastFixtures(numOfFixtures) {
+    try {
+      const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
+        params: {
+            team: '33',
+            last: JSON.stringify(numOfFixtures),
+        },
+        headers: {
+          'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
+          'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+        }
+      });
+      return response.data.response;
+    } catch (error) {
+      console.error(error);
+      return null; // or handle error as needed
+    }
+  }
+ 
+  
 export function getTeamNickname(teamName, viewPort) {
     const isTablet = viewPort < 1024; // Adjust the tablet threshold according to your requirements
     const isMobile = viewPort < 768; // Adjust the mobile threshold according to your requirements
@@ -61,6 +123,22 @@ export const logo = {
     conference:"https://media.api-sports.io/football/leagues/848.png",
 }
 
+
+  // Format for date
+export const formatDate = (dateString) => {
+    const dateTime = new Date(dateString);
+    const month = dateTime.toLocaleString('default', { month: 'short' });
+    const day = dateTime.getDate().toString().padStart(2, '0');
+    return `${month} ${day}`;
+  };
+
+  // Function to format time to 24-hour format
+export const formatTime = (timeString) => {
+    const dateTime = new Date(timeString);
+    const hours = dateTime.getHours().toString().padStart(2, '0');
+    const minutes = dateTime.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
 
 
 export const qualifiedLeague = (teamRank) => {
