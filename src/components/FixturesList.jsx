@@ -39,11 +39,11 @@ const FixturesList = () => {
                 alt="home team logo"
               />
               {/* Home team name */}
-              <h2 className="">{getTeamNickname(game.teams.home.name)}</h2>
+              <h2 className="md:ml-1">{getTeamNickname(game.teams.home.name, 1000)}</h2>
             </div>
   
             {/* Game INFO  */}
-            <div className="py-4 mx-6">
+            <div className="">
               {/* Date */}
               <div className=" text-lg leading-6 text-gray-600">{formatDate(game.fixture.date)} </div>
               {/* League name */}
@@ -57,9 +57,9 @@ const FixturesList = () => {
             </div>
   
             {/* Away TEAM */}
-            <div className="flex items-center justify-end mx-2">
+            <div className="flex items-center justify-end mx-2 ">
               {/* Away team name */}
-              <h2>{getTeamNickname(game.teams.away.name)}</h2>
+              <h2 className="md:mr-2">{getTeamNickname(game.teams.away.name,1000)}</h2>
               {/* Away team logo */}
               <img
                 id="awayLogo"
