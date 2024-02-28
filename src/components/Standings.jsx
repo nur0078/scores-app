@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getTeamNickname, qualifiedLeague } from "../constants";
 
+// Standings component displays league standings
 const Standings = () => {
+  // State to store table data
   const [tableData, setTableData] = useState([]);
+  // State to store user's window width
   const [userWidth, setUserWidth] = useState(window.innerWidth);
 
+  // Effect to update userWidth on window resize
   useEffect(() => {
     const handleResize = () => {
       setUserWidth(window.innerWidth);
@@ -18,6 +22,7 @@ const Standings = () => {
     };
   }, []);
 
+  // Effect to fetch standings data when component mounts
   useEffect(() => {
     const fetchTable = async () => {
       try {
@@ -42,6 +47,7 @@ const Standings = () => {
     fetchTable();
   }, []);
 
+  // Function to determine styling based on team rank
   const isRelegated = (rank) => {
     let setStyle = "border-b-2 border-gray-200 text-center font-inter text-sm ";
 
@@ -57,6 +63,7 @@ const Standings = () => {
     return setStyle;
   };
 
+  // Function to conditionally render cup logo based on team rank
   const isLogoNeeded = (rank) => {
     if (rank < 6 || rank > 17) {
       return (
@@ -73,6 +80,7 @@ const Standings = () => {
     }
   };
 
+  // Function to render team name based on user's window width
   const renderTeamName = (teamName) => {
     if (userWidth >= 1024) {
       return teamName;
@@ -83,6 +91,7 @@ const Standings = () => {
     }
   };
 
+  // Render Standings UI
   return (
     <div id="standings-child" className="flex text-sm pt-5">
       <div className="overflow-x-auto w-full">
