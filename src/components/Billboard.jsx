@@ -27,7 +27,7 @@ const Billboard = () => {
   }, []);
 
   return (
-    <div className="rounded-3xl m-4 bg-pale-blue shadow-2xl ">
+    <div className="rounded-3xl m-4 bg-pale-blue shadow-2xl p-3">
       {boardScore.length > 0 && (
         <div className="justify-center items-center">
           {/*============ Top Bins ============ */}
@@ -47,10 +47,10 @@ const Billboard = () => {
               </span>
               <span
                 id="live-status"
-                className="font-semibold"
+                className="font-semibold pr-6"
               >
                 {/* Live status or game week */}
-                {isLive ? "Live" : "GW " + boardScore[0].league.round.slice(-2)}
+                {isLive ? "Live" : "GW " + boardScore[0].league.round.slice(-2)}  
               </span>
             </div>
           </div>
@@ -76,13 +76,13 @@ const Billboard = () => {
                 vs
               </div>
               {/* AWAY GOALS */}
-              <div className="text-4xl font-bold mx-2 pr-2">
+              <div className="text-4xl font-bold ">
                 {boardScore[0].goals.away}
               </div>
             </div>
 
             {/* AWAY TEAM */}
-            <div className="mr-2">
+            <div className="">
               <img
                 src={boardScore[0].teams.away.logo}
                 alt="away team logo"
@@ -106,7 +106,7 @@ const Billboard = () => {
           {/* Lower Text, Team Name Stadium */}
           <div className="items-center pb-3 px-2 flex gap-3">
             {/* Home team name */}
-            <div className="flex-1 text-2xl font-semibold">
+            <div className="flex-1 text-xl md:text-2xl font-semibold">
               {getTeamNickname(boardScore[0].teams.home.name, 900)}
             </div>
             
@@ -116,7 +116,7 @@ const Billboard = () => {
             </div>
 
             {/* Away team name */}
-            <div className="flex-1 text-2xl font-semibold">
+            <div className="flex-1 text-xl md:text-2xl font-semibold">
             {getTeamNickname(boardScore[0].teams.away.name, 900)}
             </div>
           </div>
