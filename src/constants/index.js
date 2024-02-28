@@ -1,65 +1,67 @@
 import axios from 'axios';
 
-
+// Function to fetch live fixtures
 export async function liveFixtures() {
-    try {
-      const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
-        params: {
-          live:'all',
-          team: '33',
-        },
-        headers: {
-          'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
-        }
-      });
-      return response.data.response;
-    } catch (error) {
-      console.error(error);
-      return null; // or handle error as needed
-    }
+  try {
+    const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
+      params: {
+        live:'all',
+        team: '33',
+      },
+      headers: {
+        'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY, // Access RapidAPI key from environment variables
+        'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+      }
+    });
+    return response.data.response; // Return live fixtures data
+  } catch (error) {
+    console.error(error);
+    return null; // Return null or handle error as needed
   }
+}
 
+// Function to fetch next (numOfFixtures) fixtures
 export async function fetchNextFixtures(numOfFixtures) {
-    try {
-      const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
-        params: {
-            team: '33',
-            next: JSON.stringify(numOfFixtures),
-            timezone: 'Australia/Sydney'
-        },
-        headers: {
-          'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
-        }
-      });
-      return response.data.response;
-    } catch (error) {
-      console.error(error);
-      return null; // or handle error as needed
-    }
+  try {
+    const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
+      params: {
+          team: '33',
+          next: JSON.stringify(numOfFixtures),
+          timezone: 'Australia/Sydney'
+      },
+      headers: {
+        'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
+        'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+      }
+    });
+    return response.data.response; // Return next fixtures data
+  } catch (error) {
+    console.error(error);
+    return null; // Return null or handle error as needed
   }
+}
 
-  export async function fetchLastFixtures(numOfFixtures) {
-    try {
-      const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
-        params: {
-            team: '33',
-            last: JSON.stringify(numOfFixtures),
-        },
-        headers: {
-          'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
-        }
-      });
-      return response.data.response;
-    } catch (error) {
-      console.error(error);
-      return null; // or handle error as needed
-    }
+// Function to fetch last (numOfFixtures) fixtures.. eg: for Billboard, numOfFixtures=1
+export async function fetchLastFixtures(numOfFixtures) {
+  try {
+    const response = await axios.get('https://api-football-v1.p.rapidapi.com/v3/fixtures', {
+      params: {
+          team: '33',
+          last: JSON.stringify(numOfFixtures),
+      },
+      headers: {
+        'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
+        'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+      }
+    });
+    return response.data.response; // Return last fixtures data
+  } catch (error) {
+    console.error(error);
+    return null; // Return null or handle error as needed
   }
+}
  
-  
+// Function to get team nickname based on viewport size
 export function getTeamNickname(teamName, viewPort) {
     const isTablet = viewPort < 1024; // Adjust the tablet threshold according to your requirements
     const isMobile = viewPort < 768; // Adjust the mobile threshold according to your requirements
@@ -115,6 +117,7 @@ export function getTeamNickname(teamName, viewPort) {
 }
 
 
+// Object containing league logos
 
 export const logo = {
     ucl: "https://media.api-sports.io/football/leagues/2.png",
@@ -124,7 +127,7 @@ export const logo = {
 }
 
 
-  // Format for date
+  // Format for date in Month and Day
 export const formatDate = (dateString) => {
     const dateTime = new Date(dateString);
     const month = dateTime.toLocaleString('default', { month: 'short' });
@@ -140,10 +143,9 @@ export const formatTime = (timeString) => {
     return `${hours}:${minutes}`;
   };
 
-
+// Function to determine league logo based on team rank
 export const qualifiedLeague = (teamRank) => {
     const rank = Number(teamRank)
-
     if (rank < 5) {
         return logo.ucl
     } else if (rank == 5) {
