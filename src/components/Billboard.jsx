@@ -27,7 +27,7 @@ const Billboard = () => {
   }, []);
 
   return (
-    <div className="rounded-3xl m-4 bg-pale-blue shadow-2xl p-3">
+    <div className="rounded-3xl bg-pale-blue shadow-2xl mx-3  ">
       {boardScore.length > 0 && (
         <div className="justify-center items-center">
           {/*============ Top Bins ============ */}
