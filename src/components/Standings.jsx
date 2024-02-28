@@ -84,7 +84,7 @@ const Standings = () => {
   };
 
   return (
-    <div id="standings-child" className="flex text-sm pt-10">
+    <div id="standings-child" className="flex text-sm pt-5">
       <div className="overflow-x-auto w-full">
         <table className="w-full border-collapse">
           <thead>
