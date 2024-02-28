@@ -5,7 +5,6 @@
 @tailwind utilities;
 
 body {
-  padding: 5px;
   background-color: white;
   width: 100vw;
 }
