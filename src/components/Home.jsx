@@ -2,6 +2,7 @@ import Billboard from "./Billboard";
 import Standings from "./Standings";
 import FixturesList from "./FixturesList";
 
+// Home component renders the main dashboard layout
 const Home = () => {
   return (
     <div className="py-8 font-poppins">
