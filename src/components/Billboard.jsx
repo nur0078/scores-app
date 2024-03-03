@@ -31,9 +31,10 @@ const Billboard = () => {
         fetchData();
     }, []);
 
+
     // Render Billboard UI
     return (
-        <div className="rounded-3xl bg-pale-blue shadow-2xl mx-3">
+        <div className="rounded-3xl bg-coral-red shadow-2xl mx-3 text-white">
             {boardScore.length > 0 && (
                 <div className="justify-center items-center">
                     {/* Render League Info */}
@@ -48,35 +49,37 @@ const Billboard = () => {
                             </span>
                             {/* Live status or Game week */}
                             <span id="live-status" className="font-semibold pr-6">
-                                {isLive ? "Live" : "GW " + boardScore[0].league.round.slice(-2)}
+                                {isLive 
+                                ? `${boardScore[0].fixture.status.elapsed}'`
+                                : "GW " + boardScore[0].league.round.slice(-2)}
                             </span>
                         </div>
                     </div>
                     {/* Render Scoreboard */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between px-4">
                         {/* Home Team */}
-                        <div className="ml-2">
+                        <div className="">
                             <img src={boardScore[0].teams.home.logo} alt="home team logo" />
                         </div>
                         {/* Scores */}
-                        <div className="flex items-center gap-4">
-                            <div className="text-4xl font-bold mx-2 pl-2">{boardScore[0].goals.home}</div>
-                            <div className="flex items-center justify-center h-8 w-8 bg-gray-300 rounded-full">vs</div>
+                        <div className="flex items-center gap-4 mx-4">
+                            <div className="text-4xl font-bold">{boardScore[0].goals.home}</div>
+                            <div className="flex text-xl font-semibold items-center justify-center h-8 w-8  mx-2">vs</div>
                             <div className="text-4xl font-bold ">{boardScore[0].goals.away}</div>
-                        </div>
+                        </div >
                         {/* Away Team */}
-                        <div>
+                        <div className="">
                             <img src={boardScore[0].teams.away.logo} alt="away team logo" />
                         </div>
                     </div>
                     {/* Render Game Time */}
-                    <div className="font-bold">
+                    <div className="font-medium font-inter">
                         {boardScore[0].fixture &&
-                            (boardScore[0].fixture.status.short
-                                ? boardScore[0].fixture.status.short
+                            (boardScore[0].fixture.status.long
+                                ? boardScore[0].fixture.status.long
                                 : boardScore[0].fixture.status.elapsed)}
                         <br />
-                        <span className="font-medium">
+                        <span className="font-medium font-inter">
                             {isLive ? "GW " + boardScore[0].league.round.slice(-2) : ""}
                         </span>
                     </div>
@@ -87,7 +90,7 @@ const Billboard = () => {
                             {getTeamNickname(boardScore[0].teams.home.name, 900)}
                         </div>
                         {/* Stadium */}
-                        <div className="text-sm leading-5 text-gray-600">
+                        <div className="text-sm leading-5 text-slate-200">
                             {boardScore[0].fixture.venue.name}
                         </div>
                         {/* Away Team Name */}
@@ -102,3 +105,5 @@ const Billboard = () => {
 };
 
 export default Billboard;
+
+
