@@ -22,13 +22,13 @@ const FixturesList = () => {
 
   // Render FixturesList UI
   return (
-    <div className="flex px-2">
+    <div className="flex px-2 ">
       {/* Render list of fixtures */}
-      <ul role="list" className="divide-y divide-gray-100">
+      <ul role="list" className="divide-y divide-gray-100 ">
         {fixturesData.map((game) => (
           <li
             key={game.fixture.id}
-            className="justify-between my-3 grid grid-cols-3 items-center shadow-md rounded-lg min-w-fit"
+            className="justify-between my-3 grid grid-cols-3 items-center shadow-md rounded-lg min-w-fit bg-pale-blue"
           >
             {/* Home Team */}
             <div className="flex items-center">
