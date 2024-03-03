@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div className="py-8 font-poppins">
       {/* Main grid layout for desktop and mobile */}
-      <div className="h-screen bg-pale-blue">
+      <div className="h-screen ">
         {/* NAVBAR */}
         <Nav />
         <div
