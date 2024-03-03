@@ -24,11 +24,11 @@ const FixturesList = () => {
   return (
     <div className="flex px-2 ">
       {/* Render list of fixtures */}
-      <ul role="list" className="divide-y divide-gray-100 ">
+      <ul role="list" className="divide-y divide-gray-100 w-11/12 ">
         {fixturesData.map((game) => (
           <li
             key={game.fixture.id}
-            className="justify-between my-3 grid grid-cols-3 items-center shadow-md rounded-lg min-w-fit bg-pale-blue"
+            className="justify-between my-3 grid grid-cols-3 items-center shadow-md rounded-lg min-w-fit bg-pale-blue md:hover:scale-[1.15] duration-500 md:hover:my-10"
           >
             {/* Home Team */}
             <div className="flex items-center">
