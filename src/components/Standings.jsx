@@ -49,7 +49,7 @@ const Standings = () => {
 
   // Function to determine styling based on team rank
   const isRelegated = (rank) => {
-    let setStyle = "border-b-2 border-gray-200 text-center font-inter text-sm ";
+    let setStyle = "border-b-2 border-gray-200 text-center font-inter text-sm";
 
     if (rank > 17) {
       setStyle += "bg-red-100 text-red-700";
