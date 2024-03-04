@@ -29,7 +29,7 @@ const FixturesList = () => {
   return (
     <div className="flex px-2 ">
       {/* Render list of fixtures */}
-      <ul role="list" className="divide-y divide-gray-100 w-11/12 ">
+      <ul role="list" className="divide-y divide-gray-100 ">
         {fixturesData.map((game) => (
           <li
             key={game.fixture.id}
