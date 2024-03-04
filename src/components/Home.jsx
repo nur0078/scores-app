@@ -23,13 +23,13 @@ const Home = () => {
           <Billboard />
         </div>
         {/* Fixtures section */}
-        <div id="fixtures" className="mt-6">
+        <div id="fixtures" className=" mt-6">
           <FixturesList />
         </div>
       </div>
       {/* </div> */}
       {/* Standings section */}
-      <div className="flex justify-center items-center mt-10 h-screen">
+      <div className="flex justify-center items-center mt-10">
         <Standings />
       </div>
     </div>
