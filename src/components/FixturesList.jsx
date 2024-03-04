@@ -33,7 +33,7 @@ const FixturesList = () => {
         {fixturesData.map((game) => (
           <li
             key={game.fixture.id}
-            className="justify-between my-3 grid grid-cols-3 items-center shadow-md rounded-lg min-w-fit bg-pale-blue md:hover:scale-[1.15] duration-500 md:hover:my-10"
+            className="justify-between my-3 grid grid-cols-3 items-center shadow-md rounded-lg min-w-fit bg-pale-blue md:hover:scale-[1.05] duration-500 md:hover:my-6"
           >
             {/* Home Team */}
             <div className="flex items-center">
