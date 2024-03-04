@@ -6,7 +6,7 @@ import Nav from "./Nav";
 // Home component renders the main dashboard layout
 const Home = () => {
   return (
-    <div className="py-8 font-poppins p-8">
+    <div className="py-8 font-poppins p-4 md:p-8">
       {/* Main grid layout for desktop and mobile */}
       {/* <div className="h-screen "> */}
       {/* NAVBAR */}
@@ -16,11 +16,14 @@ const Home = () => {
         className=" md:grid md:grid-cols-2 justify-center items-center"
       >
         {/* Billboard section */}
-        <div id="billboard" className="flex justify-center items-center">
+        <div
+          id="billboard"
+          className="flex justify-center mx-auto items-center"
+        >
           <Billboard />
         </div>
         {/* Fixtures section */}
-        <div id="fixtures" className="m-2 ">
+        <div id="fixtures" className="mt-6">
           <FixturesList />
         </div>
       </div>
