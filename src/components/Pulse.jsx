@@ -1,59 +1,81 @@
 import { formatNewsDate } from "../lib/format";
 
+const KIND_STYLE = {
+  signed: "bg-emerald-500/15 text-emerald-300",
+  sold: "bg-united-red/20 text-red-300",
+  loan: "bg-sky-500/15 text-sky-300",
+  linked: "bg-united-gold/15 text-united-gold",
+  transfer: "bg-united-gold/15 text-united-gold",
+  news: "bg-white/10 text-united-mist",
+};
+
 const Pulse = ({ items, loading }) => {
   if (loading) {
     return (
       <section className="mt-8 animate-riseIn" style={{ animationDelay: "120ms" }}>
         <p className="section-label mb-3">Club pulse</p>
-        <p className="text-sm text-united-mist">Pulling United headlines…</p>
+        <p className="text-sm text-united-mist">Pulling transfer desk &amp; headlines…</p>
       </section>
     );
   }
 
   if (!items?.length) return null;
 
-  const transfers = items.filter((i) => i.isTransfer);
-  const rest = items.filter((i) => !i.isTransfer);
-
   return (
     <section className="mt-8 animate-riseIn" style={{ animationDelay: "120ms" }}>
-      <div className="mb-3 flex items-end justify-between gap-3">
+      <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="section-label">Club pulse</p>
           <p className="mt-1 text-sm text-united-mist">
-            Transfers &amp; chatter first — then the rest of the newsroom.
+            What happened — signed, sold, linked — then open the article.
           </p>
         </div>
         <span className="text-xs uppercase tracking-[0.18em] text-united-mist">
-          BBC Sport · free
+          Google News · Guardian · free
         </span>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2">
-        {[...transfers, ...rest].slice(0, 6).map((item, idx) => (
-          <a
+      <ul className="divide-y divide-white/10 border border-white/10 bg-pitch-800/50">
+        {items.map((item, idx) => (
+          <li
             key={`${item.link}-${idx}`}
-            href={item.link}
-            target="_blank"
-            rel="noreferrer"
-            className="group border border-white/10 bg-pitch-800/60 p-4 text-left transition duration-300 hover:border-united-red/60 hover:bg-pitch-700/80"
+            className="flex flex-col gap-3 px-4 py-3.5 text-left transition duration-300 hover:bg-pitch-700/70 sm:flex-row sm:items-center sm:gap-4"
           >
-            <div className="mb-2 flex items-center gap-2">
-              {item.isTransfer && (
-                <span className="rounded-sm bg-united-gold/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-united-gold">
-                  Transfer desk
+            <div className="min-w-0 flex-1">
+              <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                <span
+                  className={`rounded-sm px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] ${
+                    KIND_STYLE[item.kind] || KIND_STYLE.news
+                  }`}
+                >
+                  {item.label}
                 </span>
+                <span className="text-[11px] text-united-mist">
+                  {formatNewsDate(item.pubDate)}
+                  {item.source ? ` · ${item.source}` : ""}
+                </span>
+              </div>
+              <h3 className="text-base font-semibold leading-snug text-united-bone sm:text-lg">
+                {item.title}
+              </h3>
+              {item.blurb && (
+                <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-united-mist">
+                  {item.blurb}
+                </p>
               )}
-              <span className="text-[11px] text-united-mist">
-                {formatNewsDate(item.pubDate)}
-              </span>
             </div>
-            <h3 className="font-semibold leading-snug text-united-bone group-hover:text-white">
-              {item.title}
-            </h3>
-          </a>
+
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex shrink-0 items-center justify-center self-start border border-united-red/50 bg-united-red/15 px-3 py-2 font-display text-lg tracking-wider text-united-bone transition hover:border-united-red hover:bg-united-red hover:text-white sm:self-center"
+            >
+              READ
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 };

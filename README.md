@@ -7,7 +7,7 @@ Personal Manchester United jumbotron — live match up top, club pulse (transfer
 | Source | What it gives you | Cost |
 | --- | --- | --- |
 | [football-data.org](https://www.football-data.org/) | Live/upcoming/past United matches + PL standings | **Free** token (10 req/min) |
-| BBC Sport Man Utd RSS | Headlines / transfer chatter | **Free**, no key |
+| Google News RSS + The Guardian RSS | Transfer / club headlines (global, works in AU) | **Free**, no key |
 
 The old RapidAPI `api-football` integration is gone.
 
@@ -37,7 +37,7 @@ Vite proxies `/api/fd` → football-data.org and injects your token **server-sid
 ## What you’ll see
 
 1. **Jumbotron** — live United match when available, otherwise last result / next kick-off (Sydney time)
-2. **Club pulse** — BBC United feed, transfer-related items surfaced first
+2. **Club pulse** — Google News + Guardian headlines (signed / sold / linked first), each with a Read link
 3. **Upcoming + results** — next fixtures and recent scorelines
 4. **Premier League table** — your row highlighted
 

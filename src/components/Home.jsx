@@ -92,8 +92,8 @@ const Home = () => {
           rel="noreferrer"
         >
           football-data.org
-        </a>{" "}
-        + BBC Sport RSS. No RapidAPI. Built for one supporter.
+        </a>
+        , Google News &amp; The Guardian. No RapidAPI. Built for one supporter.
       </footer>
     </div>
   );
