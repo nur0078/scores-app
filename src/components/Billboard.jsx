@@ -48,7 +48,7 @@ const Billboard = ({ match, isLive, loading, error, onSelectMatch }) => {
     >
       <button
         type="button"
-        onClick={() => match?.id && onSelectMatch?.(match.id)}
+        onClick={() => match && onSelectMatch?.(match)}
         className="absolute inset-0 z-20 cursor-pointer rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-united-gold"
         aria-label="Open match centre"
       />

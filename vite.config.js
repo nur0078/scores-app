@@ -27,6 +27,11 @@ export default defineConfig(({ mode }) => {
       rewrite: (path) => path.replace(/^\/api\/fd/, ""),
       configure: attachFootballToken,
     },
+    "/api/tsdb": {
+      target: "https://www.thesportsdb.com/api/v1/json",
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api\/tsdb/, ""),
+    },
     "/api/pulse-google": {
       target: "https://news.google.com",
       changeOrigin: true,

@@ -63,7 +63,7 @@ function MatchColumn({ title, subtitle, matches, loading, mode, onSelectMatch })
             <li key={match.id}>
               <button
                 type="button"
-                onClick={() => onSelectMatch?.(match.id)}
+                onClick={() => onSelectMatch?.(match)}
                 className="grid w-full grid-cols-[auto_1fr_auto] items-center gap-3 border border-white/10 bg-pitch-800/50 px-3 py-3 text-left transition duration-300 hover:border-united-red/60 hover:bg-pitch-700/60"
               >
                 <div className="w-12">

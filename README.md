@@ -11,8 +11,11 @@ Personal Manchester United jumbotron — live match up top, club pulse (transfer
 
 | Source | What it gives you | Cost |
 | --- | --- | --- |
-| [football-data.org](https://www.football-data.org/) | Live/upcoming/past United matches + PL standings | **Free** token |
-| Google News RSS + The Guardian RSS | Transfer / club headlines (global) | **Free**, no key |
+| [football-data.org](https://www.football-data.org/) | Fixtures, live/next/past, PL table, referees | **Free** token |
+| [TheSportsDB](https://www.thesportsdb.com/) | Match centre: timeline, stats, lineups, highlights | **Free** (key `123`) |
+| Google News RSS + The Guardian RSS | Transfer / club headlines | **Free**, no key |
+
+> football-data **free** does **not** include goals/lineups/stats — Match Centre enriches from TheSportsDB.
 
 ## Setup
 

@@ -26,7 +26,7 @@ const Home = () => {
   const [loadingTable, setLoadingTable] = useState(true);
   const [loadingPulse, setLoadingPulse] = useState(true);
   const [error, setError] = useState("");
-  const [selectedMatchId, setSelectedMatchId] = useState(null);
+  const [selectedMatch, setSelectedMatch] = useState(null);
 
   const loadMatches = useCallback(async ({ quiet } = {}) => {
     if (!quiet) setLoadingMatches(true);
@@ -77,14 +77,14 @@ const Home = () => {
         isLive={isLive}
         loading={loadingMatches}
         error={error}
-        onSelectMatch={setSelectedMatchId}
+        onSelectMatch={setSelectedMatch}
       />
       <Pulse items={pulse} loading={loadingPulse} />
       <FixturesList
         upcoming={matches.upcoming}
         recent={matches.recent}
         loading={loadingMatches}
-        onSelectMatch={setSelectedMatchId}
+        onSelectMatch={setSelectedMatch}
       />
       <Standings table={table} loading={loadingTable} />
       <footer className="mt-12 border-t border-white/10 pt-4 text-left text-xs text-united-mist">
@@ -97,13 +97,13 @@ const Home = () => {
         >
           football-data.org
         </a>
-        , Google News &amp; The Guardian. No RapidAPI. Built for one supporter.
+        , TheSportsDB, Google News &amp; The Guardian. No RapidAPI.
       </footer>
 
-      {selectedMatchId && (
+      {selectedMatch && (
         <MatchDetail
-          matchId={selectedMatchId}
-          onClose={() => setSelectedMatchId(null)}
+          match={selectedMatch}
+          onClose={() => setSelectedMatch(null)}
         />
       )}
     </div>
