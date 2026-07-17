@@ -1,28 +1,50 @@
+# Glory Board (scores-app)
 
-# Scores App
+Personal Manchester United jumbotron — live match up top, club pulse (transfers/news), upcoming fixtures, recent results, and the Premier League table. Built for one fan, no noise.
 
-## Description
+## Free APIs (no RapidAPI / no paid plan)
 
-A webapp where I can find my teams score easily with no noise.
+| Source | What it gives you | Cost |
+| --- | --- | --- |
+| [football-data.org](https://www.football-data.org/) | Live/upcoming/past United matches + PL standings | **Free** token (10 req/min) |
+| BBC Sport Man Utd RSS | Headlines / transfer chatter | **Free**, no key |
 
-## Installation
+The old RapidAPI `api-football` integration is gone.
 
-To install the dependencies and start the development server, follow these steps:
+## Setup
 
-1. Clone the repository:
-   `git clone https://github.com/nur0078/scores-app.git`
+1. Register for a free token:  
+   https://www.football-data.org/client/register
+2. Copy the env file and paste your token:
 
-1. Navigate to the project directory:
-`cd scores-app`
+```bash
+cp .env.example .env
+```
 
-1. Install dependencies:ss
-`npm install`
+```env
+FOOTBALL_DATA_TOKEN=your_token_here
+```
 
-1. Start the development server:
-`npm run dev`
+3. Install and run:
 
-# React + Vite
+```bash
+npm install
+npm run dev
+```
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Vite proxies `/api/fd` → football-data.org and injects your token **server-side** (dev + `npm run preview`). The token is not exposed as a `VITE_` client variable.
 
-Have Fun...
+## What you’ll see
+
+1. **Jumbotron** — live United match when available, otherwise last result / next kick-off (Sydney time)
+2. **Club pulse** — BBC United feed, transfer-related items surfaced first
+3. **Upcoming + results** — next fixtures and recent scorelines
+4. **Premier League table** — your row highlighted
+
+While a match is live, the board quietly refreshes every 60 seconds.
+
+## Notes
+
+- Free football-data.org coverage is strongest for major European competitions (PL, etc.).
+- Keep `.env` out of git (already in `.gitignore`).
+- If the board says the token was rejected, restart the dev server after editing `.env`.

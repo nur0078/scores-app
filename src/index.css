@@ -1,15 +1,105 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,200;0,400;0,600;0,700;1,200;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Teko:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: white;
-  width: 100vw;
+:root {
+  --pitch: #070708;
+  --united-red: #da291c;
+  --united-gold: #f5c518;
+  --bone: #f4ede4;
 }
 
-table {
-  width: 100%; /* Ensure the table takes up 100% of its container's width */
-  table-layout: fixed; /* Fix the layout to prevent the table from changing its layout based on content */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Karla", ui-sans-serif, sans-serif;
+  color: var(--bone);
+  background: var(--pitch);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(218, 41, 28, 0.28), transparent 55%),
+    radial-gradient(ellipse 40% 30% at 90% 20%, rgba(245, 197, 24, 0.06), transparent 50%),
+    linear-gradient(180deg, #0e0e10 0%, #070708 45%, #0a0a0c 100%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+#root {
+  position: relative;
+  z-index: 2;
+}
+
+::selection {
+  background: rgba(218, 41, 28, 0.45);
+  color: white;
+}
+
+.board-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(218, 41, 28, 0.45);
+  box-shadow: 0 0 0 1px rgba(245, 197, 24, 0.08), 0 28px 80px rgba(0, 0, 0, 0.55);
+  background:
+    linear-gradient(180deg, rgba(218, 41, 28, 0.16), transparent 40%),
+    linear-gradient(135deg, #16161a 0%, #0e0e10 55%, #1a1010 100%);
+}
+
+.board-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(255, 255, 255, 0.03),
+    transparent
+  );
+  animation: scan 6s linear infinite;
+  pointer-events: none;
+}
+
+.section-label {
+  font-family: "Teko", Impact, sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f5c518;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.united-row {
+  background: linear-gradient(
+    90deg,
+    rgba(218, 41, 28, 0.28),
+    rgba(218, 41, 28, 0.08) 55%,
+    transparent
+  );
+  box-shadow: inset 3px 0 0 #da291c;
 }

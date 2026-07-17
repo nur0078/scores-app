@@ -1,37 +1,100 @@
+import { useCallback, useEffect, useState } from "react";
 import Billboard from "./Billboard";
 import Standings from "./Standings";
 import FixturesList from "./FixturesList";
+import Pulse from "./Pulse";
 import Nav from "./Nav";
+import {
+  fetchPremierLeagueTable,
+  fetchUnitedMatches,
+  fetchUnitedPulse,
+} from "../api/football";
 
-// Home component renders the main dashboard layout
+const LIVE_POLL_MS = 60_000;
+
 const Home = () => {
+  const [matches, setMatches] = useState({
+    live: null,
+    last: null,
+    upcoming: [],
+    recent: [],
+  });
+  const [table, setTable] = useState([]);
+  const [pulse, setPulse] = useState([]);
+  const [loadingMatches, setLoadingMatches] = useState(true);
+  const [loadingTable, setLoadingTable] = useState(true);
+  const [loadingPulse, setLoadingPulse] = useState(true);
+  const [error, setError] = useState("");
+
+  const loadMatches = useCallback(async ({ quiet } = {}) => {
+    if (!quiet) setLoadingMatches(true);
+    try {
+      const data = await fetchUnitedMatches();
+      setMatches(data);
+      setError("");
+    } catch (err) {
+      console.error(err);
+      setError(
+        err.message?.includes("403") || err.message?.includes("400")
+          ? "Free API token missing or rejected. Register at football-data.org and put FOOTBALL_DATA_TOKEN in .env."
+          : "Could not load United fixtures from the free API."
+      );
+    } finally {
+      if (!quiet) setLoadingMatches(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMatches();
+
+    fetchPremierLeagueTable()
+      .then(setTable)
+      .catch((err) => console.error(err))
+      .finally(() => setLoadingTable(false));
+
+    fetchUnitedPulse()
+      .then(setPulse)
+      .catch((err) => console.error(err))
+      .finally(() => setLoadingPulse(false));
+  }, [loadMatches]);
+
+  useEffect(() => {
+    if (!matches.live) return undefined;
+    const id = setInterval(() => loadMatches({ quiet: true }), LIVE_POLL_MS);
+    return () => clearInterval(id);
+  }, [matches.live, loadMatches]);
+
+  const boardMatch = matches.live || matches.last || matches.upcoming[0] || null;
+  const isLive = Boolean(matches.live);
+
   return (
-    <div className="py-8 font-poppins p-4 md:p-8">
-      {/* Main grid layout for desktop and mobile */}
-      {/* <div className="h-screen "> */}
-      {/* NAVBAR */}
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:py-10 font-body">
       <Nav />
-      <div
-        id="home"
-        className=" md:grid md:grid-cols-2 justify-center items-center"
-      >
-        {/* Billboard section */}
-        <div
-          id="billboard"
-          className="flex justify-center mx-auto items-center"
+      <Billboard
+        match={boardMatch}
+        isLive={isLive}
+        loading={loadingMatches}
+        error={error}
+      />
+      <Pulse items={pulse} loading={loadingPulse} />
+      <FixturesList
+        upcoming={matches.upcoming}
+        recent={matches.recent}
+        loading={loadingMatches}
+      />
+      <Standings table={table} loading={loadingTable} />
+      <footer className="mt-12 border-t border-white/10 pt-4 text-left text-xs text-united-mist">
+        Powered by free{" "}
+        <a
+          className="text-united-gold underline-offset-2 hover:underline"
+          href="https://www.football-data.org/"
+          target="_blank"
+          rel="noreferrer"
         >
-          <Billboard />
-        </div>
-        {/* Fixtures section */}
-        <div id="fixtures" className=" mt-6">
-          <FixturesList />
-        </div>
-      </div>
-      {/* </div> */}
-      {/* Standings section */}
-      <div className="flex justify-center items-center mt-10">
-        <Standings />
-      </div>
+          football-data.org
+        </a>{" "}
+        + BBC Sport RSS. No RapidAPI. Built for one supporter.
+      </footer>
     </div>
   );
 };

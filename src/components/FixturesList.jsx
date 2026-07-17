@@ -1,92 +1,110 @@
-import { useState, useEffect } from "react";
 import {
-  fetchNextFixtures,
   formatDate,
   formatTime,
   getTeamNickname,
-} from "../constants";
+  scoreLabel,
+  unitedResult,
+} from "../lib/format";
+import { TEAM } from "../config";
 
-// FixturesList component displays a list of upcoming fixtures
-const FixturesList = () => {
-  // State to store fixtures data
-  const [fixturesData, setFixturesData] = useState([]);
-
-  // Fetch fixtures data when component mounts
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch next 4 fixtures
-        const data = await fetchNextFixtures(4);
-        setFixturesData(data);
-      } catch (error) {
-        console.error("Error fetching fixtures:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  // Render FixturesList UI
+const FixturesList = ({ upcoming = [], recent = [], loading }) => {
   return (
-    <div className="flex px-2 ">
-      {/* Render list of fixtures */}
-      <ul role="list" className="divide-y divide-gray-100 ">
-        {fixturesData.map((game) => (
-          <li
-            key={game.fixture.id}
-            className="justify-between my-3 grid grid-cols-3 items-center shadow-md rounded-lg min-w-fit bg-pale-blue md:hover:scale-[1.05] duration-500 md:hover:my-6"
-          >
-            {/* Home Team */}
-            <div className="flex items-center">
-              {/* Home team logo */}
-              <img
-                id="homeLogo"
-                className="h-10 w-10 mx-2 rounded-full bg-gray-50"
-                src={game.teams.home.logo}
-                alt="home team logo"
-              />
-              {/* Home team name */}
-              <h2 className="md:ml-1">
-                {getTeamNickname(game.teams.home.name, 1000)}
-              </h2>
-            </div>
+    <section
+      className="mt-10 grid gap-8 lg:grid-cols-2 animate-riseIn"
+      style={{ animationDelay: "200ms" }}
+    >
+      <MatchColumn
+        title="Upcoming"
+        subtitle="Next on the calendar"
+        matches={upcoming}
+        loading={loading}
+        mode="upcoming"
+      />
+      <MatchColumn
+        title="Results"
+        subtitle="Most recent nights"
+        matches={recent}
+        loading={loading}
+        mode="recent"
+      />
+    </section>
+  );
+};
 
-            {/* Game INFO  */}
-            <div className="">
-              {/* Date */}
-              <div className="text-lg leading-6 text-gray-600">
-                {formatDate(game.fixture.date)}
+function MatchColumn({ title, subtitle, matches, loading, mode }) {
+  return (
+    <div>
+      <p className="section-label">{title}</p>
+      <p className="mb-4 mt-1 text-sm text-united-mist">{subtitle}</p>
+
+      {loading && (
+        <p className="text-sm text-united-mist">Loading fixtures…</p>
+      )}
+
+      {!loading && !matches.length && (
+        <p className="text-sm text-united-mist">Nothing in this window yet.</p>
+      )}
+
+      <ul className="space-y-3">
+        {matches.map((match) => {
+          const result = mode === "recent" ? unitedResult(match) : null;
+          const opponent =
+            match.homeTeam.id === TEAM.id ? match.awayTeam : match.homeTeam;
+          const venue = match.homeTeam.id === TEAM.id ? "H" : "A";
+
+          return (
+            <li
+              key={match.id}
+              className="grid grid-cols-[auto_1fr_auto] items-center gap-3 border border-white/10 bg-pitch-800/50 px-3 py-3 transition duration-300 hover:border-united-red/40"
+            >
+              <div className="w-12 text-left">
+                <div className="text-xs uppercase tracking-wider text-united-mist">
+                  {formatDate(match.utcDate)}
+                </div>
+                <div className="font-display text-xl leading-none text-united-bone">
+                  {mode === "upcoming"
+                    ? formatTime(match.utcDate)
+                    : scoreLabel(match)}
+                </div>
               </div>
-              {/* League name */}
-              <div className="text-sm font-semibold">{game.league.name}</div>
-              {/* Kick-off Time */}
-              <p className="text-sm font-semibold leading-6 text-gray-900 py-2">
-                {formatTime(game.fixture.date)}
-              </p>
-              {/* Stadium */}
-              <small className="text-sm leading-5 text-gray-500">
-                {game.fixture.venue.name}
-              </small>
-            </div>
 
-            {/* Away TEAM */}
-            <div className="flex items-center justify-end mx-2">
-              {/* Away team name */}
-              <h2 className="md:mr-2">
-                {getTeamNickname(game.teams.away.name, 1000)}
-              </h2>
-              {/* Away team logo */}
-              <img
-                id="awayLogo"
-                className="h-10 w-10 flex rounded-full bg-gray-50 mx-1"
-                src={game.teams.away.logo}
-                alt="away team logo"
-              />
-            </div>
-          </li>
-        ))}
+              <div className="flex min-w-0 items-center gap-3 text-left">
+                <img
+                  src={opponent.crest}
+                  alt=""
+                  className="h-8 w-8 object-contain"
+                />
+                <div className="min-w-0">
+                  <div className="truncate font-semibold text-united-bone">
+                    {venue === "H" ? "vs" : "@"}{" "}
+                    {getTeamNickname(opponent.shortName || opponent.name, 1000)}
+                  </div>
+                  <div className="truncate text-xs text-united-mist">
+                    {match.competition?.name}
+                    {match.venue ? ` · ${match.venue}` : ""}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className={`font-display text-2xl leading-none ${
+                  result === "W"
+                    ? "text-emerald-400"
+                    : result === "L"
+                      ? "text-united-red"
+                      : result === "D"
+                        ? "text-united-gold"
+                        : "text-united-mist"
+                }`}
+              >
+                {result || venue}
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
-};
+}
 
 export default FixturesList;

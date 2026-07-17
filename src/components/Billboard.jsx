@@ -1,116 +1,152 @@
-import { useState, useEffect } from "react";
-import { fetchLastFixtures, liveFixtures, getTeamNickname } from "../constants";
+import {
+  formatDate,
+  formatTime,
+  getTeamNickname,
+  statusLabel,
+} from "../lib/format";
 
-// Billboard component displays live or last game data
-const Billboard = () => {
-  // State to store scoreboard data
-  const [boardScore, setBoardScore] = useState([]);
-  // State to track whether the game is live
-  const [isLive, setIsLive] = useState(false);
+const Billboard = ({ match, isLive, loading, error }) => {
+  if (loading) {
+    return (
+      <div className="board-frame rounded-sm px-6 py-16 text-united-mist animate-riseIn">
+        Warming up the jumbotron…
+      </div>
+    );
+  }
 
-  // Fetch data when component mounts
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch live game data
-        const liveData = await liveFixtures();
-        if (liveData.length > 0) {
-          // Set board score and mark as live if live data available
-          setBoardScore(liveData);
-          setIsLive(true);
-        } else {
-          // If no live data, fetch last game data
-          const lastGameData = await fetchLastFixtures(1);
-          setBoardScore(lastGameData);
-        }
-      } catch (error) {
-        // Log any errors that occur during data fetching
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  if (error) {
+    return (
+      <div className="board-frame rounded-sm px-6 py-12 text-left animate-riseIn">
+        <p className="section-label mb-2">Board offline</p>
+        <p className="text-united-bone">{error}</p>
+        <p className="mt-3 text-sm text-united-mist">
+          Add your free football-data.org token to <code className="text-united-gold">.env</code> and
+          restart <code className="text-united-gold">npm run dev</code>.
+        </p>
+      </div>
+    );
+  }
 
-  // Render Billboard UI
+  if (!match) {
+    return (
+      <div className="board-frame rounded-sm px-6 py-16 text-united-mist animate-riseIn">
+        No recent United fixture in the current window.
+      </div>
+    );
+  }
+
+  const home = match.homeTeam;
+  const away = match.awayTeam;
+  const homeScore = match.score?.fullTime?.home ?? match.score?.regularTime?.home;
+  const awayScore = match.score?.fullTime?.away ?? match.score?.regularTime?.away;
+  const showScore = homeScore != null && awayScore != null;
+
   return (
-    <div className="rounded-3xl bg-coral-red shadow-2xl mx-3 text-white">
-      {boardScore.length > 0 && (
-        <div className="justify-center items-center">
-          {/* Render League Info */}
-          <div className="flex-col text-left py-4">
-            <div className="flex justify-between items-center">
-              {/* League Logo and Name */}
-              <span className="flex items-center">
-                <img
-                  src={boardScore[0].league.logo}
-                  alt="League logo"
-                  className="w-8 ml-4"
-                />
-                <div className="flex items-center text-md font-semibold ml-2">
-                  {boardScore[0].league.name}
-                </div>
-              </span>
-              {/* Live status or Game week */}
-              <span id="live-status" className="font-semibold pr-6">
-                {isLive
-                  ? `${boardScore[0].fixture.status.elapsed}'`
-                  : "GW " + boardScore[0].league.round.slice(-2)}
-              </span>
-            </div>
-          </div>
-          {/* Render Scoreboard */}
-          <div className="flex items-center justify-between px-4">
-            {/* Home Team */}
-            <div className="">
-              <img src={boardScore[0].teams.home.logo} alt="home team logo" />
-            </div>
-            {/* Scores */}
-            <div className="flex items-center gap-4 mx-4">
-              <div className="text-4xl font-bold">
-                {boardScore[0].goals.home}
+    <section
+      className="board-frame relative rounded-sm px-4 py-6 sm:px-8 sm:py-8 animate-riseIn"
+      aria-live="polite"
+    >
+      <div className="relative z-10">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            {match.competition?.emblem && (
+              <img
+                src={match.competition.emblem}
+                alt=""
+                className="h-8 w-8 object-contain"
+              />
+            )}
+            <div className="text-left">
+              <div className="text-xs uppercase tracking-[0.22em] text-united-mist">
+                {match.competition?.name || "Match"}
               </div>
-              <div className="flex text-xl font-semibold items-center justify-center h-8 w-8  mx-2">
-                vs
-              </div>
-              <div className="text-4xl font-bold ">
-                {boardScore[0].goals.away}
+              <div className="font-display text-xl tracking-wider text-united-bone">
+                {match.matchday != null
+                  ? `Matchday ${match.matchday}`
+                  : match.stage?.replaceAll("_", " ")}
               </div>
             </div>
-            {/* Away Team */}
-            <div className="">
-              <img src={boardScore[0].teams.away.logo} alt="away team logo" />
-            </div>
           </div>
-          {/* Render Game Time */}
-          <div className="font-medium font-inter">
-            {boardScore[0].fixture &&
-              (boardScore[0].fixture.status.long
-                ? boardScore[0].fixture.status.long
-                : boardScore[0].fixture.status.elapsed)}
-            <br />
-            <span className="font-medium font-inter">
-              {isLive ? "GW " + boardScore[0].league.round.slice(-2) : ""}
-            </span>
-          </div>
-          {/* Render Team Details */}
-          <div className="items-center pb-3 px-2 flex gap-3">
-            {/* Home Team Name */}
-            <div className="flex-1 text-xl md:text-2xl font-semibold">
-              {getTeamNickname(boardScore[0].teams.home.name, 900)}
-            </div>
-            {/* Stadium */}
-            <div className="text-sm leading-5 text-slate-200">
-              {boardScore[0].fixture.venue.name}
-            </div>
-            {/* Away Team Name */}
-            <div className="flex-1 text-xl md:text-2xl font-semibold">
-              {getTeamNickname(boardScore[0].teams.away.name, 900)}
-            </div>
+
+          <div
+            className={`flex items-center gap-2 rounded-sm px-3 py-1 font-display text-2xl tracking-widest ${
+              isLive
+                ? "bg-united-red text-white shadow-glow"
+                : "bg-pitch-700 text-united-gold"
+            }`}
+          >
+            {isLive && (
+              <span className="h-2 w-2 rounded-full bg-white animate-pulseLive" />
+            )}
+            {isLive ? statusLabel(match) : showScore ? "FULL TIME" : "NEXT UP"}
           </div>
         </div>
-      )}
-    </div>
+
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-6">
+          <TeamBlock team={home} align="left" />
+          <div className="min-w-[7rem] text-center">
+            {showScore ? (
+              <div className="font-display text-6xl sm:text-8xl leading-none tracking-wide text-united-bone tabular-nums">
+                <span className={isUnitedAccent(home) ? "text-united-gold" : ""}>
+                  {homeScore}
+                </span>
+                <span className="mx-2 text-united-red">:</span>
+                <span className={isUnitedAccent(away) ? "text-united-gold" : ""}>
+                  {awayScore}
+                </span>
+              </div>
+            ) : (
+              <div className="font-display text-5xl sm:text-6xl leading-none text-united-gold">
+                {formatTime(match.utcDate)}
+              </div>
+            )}
+            <div className="mt-2 text-xs uppercase tracking-[0.2em] text-united-mist">
+              {isLive ? "Live from the theatre" : formatDate(match.utcDate)}
+            </div>
+          </div>
+          <TeamBlock team={away} align="right" />
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-4 text-sm text-united-mist">
+          <span>{match.venue || "Venue TBC"}</span>
+          <span>
+            {isLive
+              ? `Kick-off ${formatTime(match.utcDate)} Syd`
+              : showScore
+                ? statusLabel(match)
+                : `${formatDate(match.utcDate)} · ${formatTime(match.utcDate)} Syd`}
+          </span>
+        </div>
+      </div>
+    </section>
   );
 };
+
+function isUnitedAccent(team) {
+  return /manchester united/i.test(team?.name || "") || team?.tla === "MUN";
+}
+
+function TeamBlock({ team, align }) {
+  return (
+    <div
+      className={`flex flex-col items-center gap-2 ${
+        align === "right" ? "sm:items-end" : "sm:items-start"
+      }`}
+    >
+      <img
+        src={team.crest}
+        alt=""
+        className="h-16 w-16 sm:h-20 sm:w-20 object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.45)]"
+      />
+      <div
+        className={`font-display text-2xl sm:text-3xl tracking-wide leading-none ${
+          isUnitedAccent(team) ? "text-united-gold" : "text-united-bone"
+        } ${align === "right" ? "sm:text-right" : "sm:text-left"}`}
+      >
+        {getTeamNickname(team.shortName || team.name, 900)}
+      </div>
+    </div>
+  );
+}
 
 export default Billboard;

@@ -1,138 +1,147 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { getTeamNickname, qualifiedLeague } from "../constants";
+import { useEffect, useState } from "react";
+import { getTeamNickname } from "../lib/format";
+import { TEAM } from "../config";
 
-// Standings component displays league standings
-const Standings = () => {
-  // State to store table data
-  const [tableData, setTableData] = useState([]);
-  // State to store user's window width
-  const [userWidth, setUserWidth] = useState(window.innerWidth);
+const Standings = ({ table = [], loading }) => {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
 
-  // Effect to update userWidth on window resize
   useEffect(() => {
-    const handleResize = () => {
-      setUserWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    const onResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Effect to fetch standings data when component mounts
-  useEffect(() => {
-    const fetchTable = async () => {
-      try {
-        const response = await axios.get(
-          "https://api-football-v1.p.rapidapi.com/v3/standings",
-          {
-            params: {
-              season: (new Date().getFullYear() - 1).toString(),
-              league: "39",
-            },
-            headers: {
-              "X-RapidAPI-Key": import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
-              "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
-            },
-          }
-        );
-        setTableData(response.data.response[0].league.standings[0]);
-      } catch (error) {
-        console.error("Error fetching table data:", error);
-      }
-    };
-    fetchTable();
-  }, []);
-
-  // Function to determine styling based on team rank
-  const isRelegated = (rank) => {
-    let setStyle = "border-b-2 border-gray-200 text-center font-inter text-sm "; //space after last attribute is necessary for row colors.
-
-    if (rank > 17) {
-      setStyle += "bg-red-100 text-red-700";
-    } else if (rank < 5) {
-      setStyle += "bg-green-100 text-green-700";
-    } else if (rank < 7) {
-      setStyle += "bg-yellow-100 text-yellow-700";
-    } else {
-      setStyle += "bg-gray-100 text-gray-700";
-    }
-    return setStyle;
+  const nameFor = (teamName) => {
+    if (width >= 1024) return teamName;
+    return getTeamNickname(teamName, width);
   };
 
-  // Function to conditionally render cup logo based on team rank
-  const isLogoNeeded = (rank) => {
-    if (rank < 6 || rank > 17) {
-      return (
-        <div className="flex w-full  h-full">
-          <img
-            src={qualifiedLeague(rank)}
-            className=""
-            alt="cup logo"
-            width="15px"
-            height="15px"
-          />
-        </div>
-      );
-    }
+  const zoneClass = (position) => {
+    if (position <= 4) return "text-emerald-300/90";
+    if (position === 5) return "text-sky-300/90";
+    if (position >= 18) return "text-united-red";
+    return "text-united-mist";
   };
 
-  // Function to render team name based on user's window width
-  const renderTeamName = (teamName) => {
-    if (userWidth >= 1024) {
-      return teamName;
-    } else if (userWidth >= 768) {
-      return getTeamNickname(teamName, userWidth);
-    } else {
-      return getTeamNickname(teamName, userWidth).substr(0, 3);
-    }
-  };
-
-  // Render Standings UI
   return (
-    <div id="standings-child" className="flex text-sm pt-5">
-      <div className="overflow-x-auto w-full">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-800 text-white">
-              <th className="py-2">#</th>
-              <th className="py-2 text-left">Club</th>
-              <th className="py-2">MP</th>
-              <th className="py-2">W</th>
-              <th className="py-2">D</th>
-              <th className="py-2">L</th>
-              <th className="py-2">GD</th>
-              <th className="py-2">Pts</th>
-              <th className="py-2 text-left hidden md:table-cell">Form</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map((club) => (
-              <tr key={club.rank} className={isRelegated(club.rank)}>
-                <td className="py-2">{club.rank}</td>
-                <td className="py-2 flex items-center text-left">
-                  <div>{renderTeamName(club.team.name)}</div>
-                  <div className="ml-auto">{isLogoNeeded(club.rank)}</div>
-                </td>
-                <td className="py-2 text-center">{club.all.played}</td>
-                <td className="py-2 text-center">{club.all.win}</td>
-                <td className="py-2 text-center">{club.all.draw}</td>
-                <td className="py-2 text-center">{club.all.lose}</td>
-                <td className="py-2 text-center">{club.goalsDiff}</td>
-                <td className="py-2 font-bold text-center">{club.points}</td>
-                <td className="py-2 font-bold hidden md:table-cell text-left">
-                  {club.form}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <section
+      className="mt-12 animate-riseIn"
+      style={{ animationDelay: "280ms" }}
+    >
+      <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="section-label">Premier League</p>
+          <p className="mt-1 text-sm text-united-mist">
+            Your row stays lit. Form reads left → right (oldest → newest).
+          </p>
+        </div>
+        <div className="flex gap-3 text-[11px] uppercase tracking-[0.14em] text-united-mist">
+          <span className="text-emerald-300">1–4 UCL</span>
+          <span className="text-sky-300">5 EL</span>
+          <span className="text-united-red">18–20 ↓</span>
+        </div>
       </div>
-    </div>
+
+      {loading && (
+        <p className="text-sm text-united-mist">Loading table…</p>
+      )}
+
+      {!loading && (
+        <div className="overflow-x-auto border border-white/10 bg-pitch-800/40">
+          <table className="w-full min-w-[640px] border-collapse text-sm">
+            <thead>
+              <tr className="bg-pitch-950 text-left text-[11px] uppercase tracking-[0.16em] text-united-mist">
+                <th className="px-3 py-3">#</th>
+                <th className="px-3 py-3">Club</th>
+                <th className="px-2 py-3 text-center">MP</th>
+                <th className="px-2 py-3 text-center">W</th>
+                <th className="px-2 py-3 text-center">D</th>
+                <th className="px-2 py-3 text-center">L</th>
+                <th className="px-2 py-3 text-center">GD</th>
+                <th className="px-2 py-3 text-center">Pts</th>
+                <th className="hidden px-3 py-3 md:table-cell">Form</th>
+              </tr>
+            </thead>
+            <tbody>
+              {table.map((row) => {
+                const united = row.team.id === TEAM.id;
+                return (
+                  <tr
+                    key={row.team.id}
+                    className={`border-t border-white/5 ${
+                      united ? "united-row" : "hover:bg-white/[0.03]"
+                    }`}
+                  >
+                    <td className={`px-3 py-2.5 font-display text-xl ${zoneClass(row.position)}`}>
+                      {row.position}
+                    </td>
+                    <td className="px-3 py-2.5">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={row.team.crest}
+                          alt=""
+                          className="h-5 w-5 object-contain"
+                        />
+                        <span
+                          className={
+                            united
+                              ? "font-semibold text-united-gold"
+                              : "text-united-bone"
+                          }
+                        >
+                          {nameFor(row.team.shortName || row.team.name)}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-2 py-2.5 text-center text-united-mist">
+                      {row.playedGames}
+                    </td>
+                    <td className="px-2 py-2.5 text-center">{row.won}</td>
+                    <td className="px-2 py-2.5 text-center">{row.draw}</td>
+                    <td className="px-2 py-2.5 text-center">{row.lost}</td>
+                    <td className="px-2 py-2.5 text-center text-united-mist">
+                      {row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}
+                    </td>
+                    <td className="px-2 py-2.5 text-center font-display text-xl text-united-bone">
+                      {row.points}
+                    </td>
+                    <td className="hidden px-3 py-2.5 md:table-cell">
+                      <FormPills form={row.form} />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 };
+
+function FormPills({ form }) {
+  if (!form) return <span className="text-united-mist">—</span>;
+  const chars = form.replace(/[^WDL]/g, "").slice(-5).split("");
+  return (
+    <div className="flex gap-1">
+      {chars.map((c, i) => (
+        <span
+          key={`${c}-${i}`}
+          className={`flex h-6 w-6 items-center justify-center font-display text-sm leading-none ${
+            c === "W"
+              ? "bg-emerald-500/20 text-emerald-300"
+              : c === "L"
+                ? "bg-united-red/25 text-united-red"
+                : "bg-united-gold/15 text-united-gold"
+          }`}
+        >
+          {c}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export default Standings;
