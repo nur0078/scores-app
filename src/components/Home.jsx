@@ -37,9 +37,11 @@ const Home = () => {
     } catch (err) {
       console.error(err);
       setError(
-        err.message?.includes("403") || err.message?.includes("400")
-          ? "Free API token missing or rejected. Register at football-data.org and put FOOTBALL_DATA_TOKEN in .env."
-          : "Could not load United fixtures from the free API."
+        err.message?.includes("403") ||
+          err.message?.includes("400") ||
+          err.message?.includes("FOOTBALL_DATA_TOKEN")
+          ? "API token missing or rejected. On Vercel: Settings → Environment Variables → FOOTBALL_DATA_TOKEN (no VITE_ prefix), then Redeploy. Locally: put it in .env and restart npm run dev."
+          : "Could not load United fixtures from the free API. If this is the live site, redeploy after setting FOOTBALL_DATA_TOKEN."
       );
     } finally {
       if (!quiet) setLoadingMatches(false);

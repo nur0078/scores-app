@@ -20,8 +20,11 @@ const Billboard = ({ match, isLive, loading, error, onSelectMatch }) => {
         <p className="section-label mb-2">Board offline</p>
         <p className="text-united-bone">{error}</p>
         <p className="mt-3 text-sm text-united-mist">
-          Add your free football-data.org token to <code className="text-united-gold">.env</code> and
-          restart <code className="text-united-gold">npm run dev</code>.
+          Vercel: Project Settings → Environment Variables →{" "}
+          <code className="text-united-gold">FOOTBALL_DATA_TOKEN</code> (no{" "}
+          <code className="text-united-gold">VITE_</code> prefix), then Redeploy.
+          Local: same key in <code className="text-united-gold">.env</code> +{" "}
+          <code className="text-united-gold">npm run dev</code>.
         </p>
       </div>
     );
