@@ -5,7 +5,7 @@ import {
   statusLabel,
 } from "../lib/format";
 
-const Billboard = ({ match, isLive, loading, error }) => {
+const Billboard = ({ match, isLive, loading, error, onSelectMatch }) => {
   if (loading) {
     return (
       <div className="board-frame rounded-sm px-6 py-16 text-united-mist animate-riseIn">
@@ -46,7 +46,13 @@ const Billboard = ({ match, isLive, loading, error }) => {
       className="board-frame relative rounded-sm px-4 py-6 sm:px-8 sm:py-8 animate-riseIn"
       aria-live="polite"
     >
-      <div className="relative z-10">
+      <button
+        type="button"
+        onClick={() => match?.id && onSelectMatch?.(match.id)}
+        className="absolute inset-0 z-20 cursor-pointer rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-united-gold"
+        aria-label="Open match centre"
+      />
+      <div className="relative z-10 pointer-events-none">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             {match.competition?.emblem && (
@@ -109,12 +115,12 @@ const Billboard = ({ match, isLive, loading, error }) => {
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-4 text-sm text-united-mist">
           <span>{match.venue || "Venue TBC"}</span>
-          <span>
+          <span className="text-united-gold">
             {isLive
-              ? `Kick-off ${formatTime(match.utcDate)} Syd`
+              ? `Kick-off ${formatTime(match.utcDate)} Syd · tap for centre`
               : showScore
-                ? statusLabel(match)
-                : `${formatDate(match.utcDate)} · ${formatTime(match.utcDate)} Syd`}
+                ? `${statusLabel(match)} · tap for centre`
+                : `${formatDate(match.utcDate)} · ${formatTime(match.utcDate)} Syd · tap for centre`}
           </span>
         </div>
       </div>

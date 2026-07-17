@@ -4,6 +4,7 @@ import Standings from "./Standings";
 import FixturesList from "./FixturesList";
 import Pulse from "./Pulse";
 import Nav from "./Nav";
+import MatchDetail from "./MatchDetail";
 import {
   fetchPremierLeagueTable,
   fetchUnitedMatches,
@@ -25,6 +26,7 @@ const Home = () => {
   const [loadingTable, setLoadingTable] = useState(true);
   const [loadingPulse, setLoadingPulse] = useState(true);
   const [error, setError] = useState("");
+  const [selectedMatchId, setSelectedMatchId] = useState(null);
 
   const loadMatches = useCallback(async ({ quiet } = {}) => {
     if (!quiet) setLoadingMatches(true);
@@ -75,12 +77,14 @@ const Home = () => {
         isLive={isLive}
         loading={loadingMatches}
         error={error}
+        onSelectMatch={setSelectedMatchId}
       />
       <Pulse items={pulse} loading={loadingPulse} />
       <FixturesList
         upcoming={matches.upcoming}
         recent={matches.recent}
         loading={loadingMatches}
+        onSelectMatch={setSelectedMatchId}
       />
       <Standings table={table} loading={loadingTable} />
       <footer className="mt-12 border-t border-white/10 pt-4 text-left text-xs text-united-mist">
@@ -95,6 +99,13 @@ const Home = () => {
         </a>
         , Google News &amp; The Guardian. No RapidAPI. Built for one supporter.
       </footer>
+
+      {selectedMatchId && (
+        <MatchDetail
+          matchId={selectedMatchId}
+          onClose={() => setSelectedMatchId(null)}
+        />
+      )}
     </div>
   );
 };

@@ -59,6 +59,24 @@ export async function fetchPremierLeagueTable() {
   return total?.table || [];
 }
 
+/** Single-match sheet for the detail drawer (FotMob-style). */
+export async function fetchMatchDetail(matchId) {
+  // Unfold headers ask for events/XI when the free token allows them.
+  const res = await fetch(`${FD}/matches/${matchId}`, {
+    headers: {
+      "X-Unfold-Goals": "true",
+      "X-Unfold-Bookings": "true",
+      "X-Unfold-Subs": "true",
+      "X-Unfold-Lineups": "true",
+    },
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`football-data ${res.status}: ${body || res.statusText}`);
+  }
+  return res.json();
+}
+
 function decodeXml(text) {
   return text
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")

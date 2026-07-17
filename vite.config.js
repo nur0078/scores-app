@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import tailwindcss from "@tailwindcss/vite";
 
 // Free APIs are proxied so the token stays server-side (dev/preview)
 // and browser CORS never blocks upstream feeds.
@@ -12,6 +13,10 @@ export default defineConfig(({ mode }) => {
       if (token) {
         proxyReq.setHeader("X-Auth-Token", token);
       }
+      proxyReq.setHeader("X-Unfold-Goals", "true");
+      proxyReq.setHeader("X-Unfold-Bookings", "true");
+      proxyReq.setHeader("X-Unfold-Subs", "true");
+      proxyReq.setHeader("X-Unfold-Lineups", "true");
     });
   };
 
@@ -22,7 +27,6 @@ export default defineConfig(({ mode }) => {
       rewrite: (path) => path.replace(/^\/api\/fd/, ""),
       configure: attachFootballToken,
     },
-    // Globally available aggregated headlines (works in AU)
     "/api/pulse-google": {
       target: "https://news.google.com",
       changeOrigin: true,
@@ -37,7 +41,7 @@ export default defineConfig(({ mode }) => {
   };
 
   return {
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     server: { proxy },
     preview: { proxy },
   };
